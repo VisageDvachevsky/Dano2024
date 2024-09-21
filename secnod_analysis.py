@@ -22,7 +22,7 @@ text_output = []
 
 # 1. Основная статистика по числовым данным
 desc_stats = data.describe()
-desc_stats.to_csv(f'{output_dir}/numerical_statistics.csv')
+desc_stats.to_csv(f'{output_dir}/numerical_statistics.csv', encoding='utf-8-sig')
 text_output.append("Основная статистика по числовым данным:\n" + desc_stats.to_string())
 
 # 2. Выбор трёх лидирующих регионов по количеству нарушений
@@ -31,7 +31,7 @@ top_data = data[data['region'].isin(top_regions)]
 
 # Среднее значение мощности автомобилей для трёх лидирующих регионов
 mean_power_top = top_data.groupby('region')['engine_power'].mean().round(2)
-mean_power_top.to_csv(f'{output_dir}/mean_power_top_regions.csv')
+mean_power_top.to_csv(f'{output_dir}/mean_power_top_regions.csv', encoding='utf-8-sig')
 text_output.append(f"Среднее значение мощности для лидирующих регионов:\n{mean_power_top.to_string()}")
 
 # Среднее значение мощности для остальных регионов
@@ -46,17 +46,17 @@ above_below_power_top = top_data.groupby('region').apply(lambda x: pd.Series({
     'above_mean': (x['engine_power'] > overall_mean_power).sum(),
     'below_mean': (x['engine_power'] <= overall_mean_power).sum()
 }))
-above_below_power_top.to_csv(f'{output_dir}/above_below_mean_power_top.csv')
+above_below_power_top.to_csv(f'{output_dir}/above_below_mean_power_top.csv', encoding='utf-8-sig')
 text_output.append(f"Количество машин выше и ниже средней мощности для трёх лидирующих регионов:\n{above_below_power_top.to_string()}")
 
 # 4. Процентное соотношение мощных и маломощных машин к количеству нарушений
 percent_above_below = above_below_power_top.apply(lambda x: (x / x.sum()) * 100).round(2)
-percent_above_below.to_csv(f'{output_dir}/percent_above_below_power.csv')
+percent_above_below.to_csv(f'{output_dir}/percent_above_below_power.csv', encoding='utf-8-sig')
 text_output.append(f"Процентное соотношение мощных и маломощных машин к количеству нарушений:\n{percent_above_below.to_string()}")
 
 # Дополнительная статистика
 mean_age_by_region = top_data.groupby('region')['age'].mean().round(2)
-mean_age_by_region.to_csv(f'{output_dir}/mean_age_by_region.csv')
+mean_age_by_region.to_csv(f'{output_dir}/mean_age_by_region.csv', encoding='utf-8-sig')
 text_output.append(f"Средний возраст водителей по регионам:\n{mean_age_by_region.to_string()}")
 
 # Визуализация
